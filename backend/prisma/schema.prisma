@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Role: USER, OFFICIAL, ADMIN
+// ProblemStatus: NEW, IN_PROGRESS, RESOLVED, REJECTED
+// Priority: LOW, MEDIUM, HIGH
+
+model User {
+  id          String    @id @default(uuid())
+  email       String?   @unique
+  phone       String?   @unique
+  iin         String?   @unique
+  password    String?
+  name        String
+  role        String    @default("USER")
+  city        String?
+  department  String?   // For officials
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  problems    Problem[]
+}
+
+model Problem {
+  id          String        @id @default(uuid())
+  category    String
+  description String
+  address     String
+  lat         Float
+  lng         Float
+  photoUrl    String?
+  status      String        @default("NEW")
+  userId      String
+  user        User          @relation(fields: [userId], references: [id])
+  aiAnalysis  AIAnalysis?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model AIAnalysis {
+  id             String    @id @default(uuid())
+  problemId      String    @unique
+  problem        Problem   @relation(fields: [problemId], references: [id])
+  category       String
+  priority       String    @default("MEDIUM")
+  summary        String
+  recommendation String
+  createdAt      DateTime  @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String
+  userId    String?
+  userEmail String?
+  details   String?
+  createdAt DateTime @default(now())
+}
