@@ -13,20 +13,21 @@ const AccessibilityWidget = () => {
   const [spacedText, setSpacedText] = useState(() => localStorage.getItem('acc-spaced') === 'true');
 
   useEffect(() => {
+    const html = document.documentElement;
     const body = document.body;
     
     // Reset all
     body.classList.remove(
       'acc-theme-yellow', 'acc-theme-white', 
-      'acc-font-large', 'acc-font-xlarge', 
       'acc-greyscale', 'acc-hide-images', 'acc-spaced'
     );
+    html.classList.remove('acc-font-large', 'acc-font-xlarge');
     
     // Apply 
     if (theme === 'yellow') body.classList.add('acc-theme-yellow');
     if (theme === 'white') body.classList.add('acc-theme-white');
-    if (fontSize === 'large') body.classList.add('acc-font-large');
-    if (fontSize === 'xlarge') body.classList.add('acc-font-xlarge');
+    if (fontSize === 'large') html.classList.add('acc-font-large');
+    if (fontSize === 'xlarge') html.classList.add('acc-font-xlarge');
     if (greyscale) body.classList.add('acc-greyscale');
     if (hideImages) body.classList.add('acc-hide-images');
     if (spacedText) body.classList.add('acc-spaced');
@@ -48,20 +49,19 @@ const AccessibilityWidget = () => {
   };
 
   return (
-    <div className="fixed top-24 left-4 z-[9999] pointer-events-auto">
+    <div className="fixed bottom-6 left-6 z-[9999] pointer-events-auto">
       {/* Кнопка открытия — глаз */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-16 h-16 bg-white border-4 border-slate-900 shadow-2xl rounded-full flex flex-col items-center justify-center text-slate-900 hover:bg-slate-900 hover:text-white transition-all transform hover:scale-105"
-        title="Версия для слабовидящих"
+        className="w-16 h-16 bg-white border-4 border-slate-900 shadow-2xl rounded-full flex items-center justify-center text-slate-900 hover:bg-slate-900 hover:text-white transition-all transform hover:scale-105"
+        title={t('map.acc.title')}
       >
-        <Eye size={24} />
-        <span className="text-[8px] font-black uppercase tracking-tighter">{t('map.air_quality_short')}</span>
+        <Eye size={28} />
       </button>
 
       {/* Выдвижное меню (Профессиональное) */}
       {isOpen && (
-        <div className="absolute top-20 left-0 w-[340px] bg-white rounded-3xl border-2 border-slate-900 shadow-[0_30px_60px_rgba(0,0,0,0.3)] p-8 space-y-8 animate-fade-in-up">
+        <div className="absolute bottom-20 left-0 w-[340px] bg-white rounded-3xl border-2 border-slate-900 shadow-[0_30px_60px_rgba(0,0,0,0.3)] p-8 space-y-8 animate-fade-in-up">
           <div className="flex items-center justify-between border-b-2 border-slate-900 pb-4">
              <div className="flex items-center gap-3">
                 <Palette size={20} className="text-slate-900" />

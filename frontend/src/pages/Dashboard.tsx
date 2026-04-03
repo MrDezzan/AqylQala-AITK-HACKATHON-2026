@@ -16,6 +16,8 @@ import {
   ShieldCheck,
   Quote,
   Zap,
+  Activity,
+  ArrowLeft,
   FileText,
   Wind
 } from 'lucide-react';
@@ -26,6 +28,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import AiChat from '../components/Dashboard/AiChat';
 
 // Цвета для графиков
 const COLORS = ['#0055BB', '#00AEEF', '#059669', '#6366F1', '#D946EF', '#F59E0B', '#DC2626'];
@@ -154,7 +157,9 @@ export default function Dashboard() {
   const categoryData = stats.byCategory || [];
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 pb-20 font-sans">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 pb-20 font-sans relative">
+      <AiChat contextStats={stats} />
+      
       {/* Шапка дашборда */}
       <header className="h-16 sm:h-20 bg-white border-b border-slate-300 px-4 sm:px-12 flex items-center justify-between sticky top-0 z-[5000]">
         <div className="flex items-center gap-6">
@@ -205,7 +210,9 @@ export default function Dashboard() {
                  value={reportPeriod}
                  onChange={(e) => setReportPeriod(e.target.value)}
                >
+                 <option value="week">Неделя</option>
                  <option value="month">Месяц</option>
+                 <option value="year">Год</option>
                </select>
                 <button 
                   onClick={exportOfficialDocx}

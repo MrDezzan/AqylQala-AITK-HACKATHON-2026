@@ -45,7 +45,10 @@ const NewsSection = () => {
             <p className="text-lg text-slate-500 leading-relaxed">
               Актуальные городские новости Алматы, инициативы акимата и важные изменения в инфраструктуре мегаполиса.
             </p>
-            <button className="flex items-center gap-3 text-primary font-black uppercase tracking-widest text-sm hover:gap-5 transition-all group">
+            <button 
+              onClick={() => window.open('https://almaty.gov.kz', '_blank')}
+              className="flex items-center gap-3 text-primary font-black uppercase tracking-widest text-sm hover:gap-5 transition-all group"
+            >
               <span>Все новости города</span>
               <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
             </button>
@@ -81,6 +84,15 @@ const NewsSection = () => {
                     <p className="text-sm font-bold text-slate-400 line-clamp-2 leading-relaxed">
                       {content.summary}
                     </p>
+                    <div className="pt-2">
+                       <button 
+                         onClick={() => alert('Полная статья скоро будет доступна!')}
+                         className="text-[10px] font-black uppercase tracking-widest text-primary hover:text-primaryHover flex items-center gap-1 group/btn transition-colors"
+                       >
+                          Подробнее
+                          <ArrowRight size={12} className="group-hover/btn:translate-x-1 transition-transform" />
+                       </button>
+                    </div>
                   </div>
                 </div>
               );

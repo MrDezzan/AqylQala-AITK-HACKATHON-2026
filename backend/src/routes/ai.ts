@@ -565,4 +565,29 @@ router.post('/report-docx', async (req: Request, res: Response) => {
   }
 });
 
+// POST /api/ai/chat — Интерактивный чат с ИИ (Плавающий виджет)
+router.post('/chat', async (req: Request, res: Response) => {
+  try {
+    const { message, context } = req.body;
+    
+    // Промпт для ИИ, чтобы он понимал свою роль
+    const CHAT_PROMPT = `Ты — Суверенный ИИ-аналитик Акимата Алматы.
+Твоя задача — отвечать на вопросы чиновников, опираясь на городские данные.
+Стиль ответов: профессиональный, без воды, краткий. Решай конкретные городские задачи.
+
+Если есть контекст (статистика), опирайся на него:
+${context || 'Нет дополнительных данных. Опирайся на общие знания Алматы.'}
+
+Вопрос от сотрудника:
+"${message}"`;
+
+    const rawResponse = await callOllama(CHAT_PROMPT);
+    res.json({ text: rawResponse.trim() });
+    
+  } catch (err: any) {
+    console.error('!!! Ошибка AI Chat:', err);
+    res.status(500).json({ error: 'Ошибка связи с ИИ', text: 'Извините, защищенный канал перегружен. Пожалуйста, попробуйте отправить запрос позже.' });
+  }
+});
+
 export default router;

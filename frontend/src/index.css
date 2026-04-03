@@ -107,9 +107,9 @@ body.acc-theme-white {
   padding: 4px 8px !important;
 }
 
-/* 3. Font Scaling */
-body.acc-font-large { font-size: 1.5rem !important; }
-body.acc-font-xlarge { font-size: 2rem !important; }
+/* 3. Font Scaling - Applied to HTML to ensure all REM units scale proportionally */
+html.acc-font-large { font-size: 24px !important; }
+html.acc-font-xlarge { font-size: 32px !important; }
 
 /* 4. Utilities */
 body.acc-greyscale { filter: grayscale(100%) !important; }
